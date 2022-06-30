@@ -1,50 +1,16 @@
 import React, { useState, useRef, useEffect } from "react"
-import { FaPlay } from "react-icons/fa"
-import {
-  IoPlaySkipForward,
-  IoPlaySkipBack,
-  IoStop,
-  IoPause,
-} from "react-icons/io5"
 import classes from "./App.module.css"
 import Screen from "./components/Screen/Screen"
+import Buttons from "./components/Buttons/Buttons"
+import Effect from "./components/Effect/Effect"
+import songs from "./songs"
 
 function App() {
   const audioElement = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [index, setIndex] = useState(0)
-  const [songs] = useState([
-    {
-      artist: "Coldplay",
-      song: "Yellow",
-      img: "/songs-images/coldplay.jpg",
-      src: "/songs/yellow.mp3",
-    },
-    {
-      artist: "Gayle",
-      song: "abcdefu",
-      img: "/songs-images/gayle.jpg",
-      src: "/songs/gayle-abcdfu.mp3",
-    },
-    {
-      artist: "The Cranberries",
-      song: "Zombie",
-      img: "/songs-images/zombie.jpg",
-      src: "/songs/zombie.mp3",
-    },
-    {
-      artist: "Muslum Gurses",
-      song: "Tanrı Istemezse",
-      img: "/songs-images/muslum-gurses.jpg",
-      src: "/songs/muslum.mp3",
-    },
-    {
-      artist: "Snoop Dogg",
-      song: "Sweat",
-      img: "/songs-images/snoopdog.jpg",
-      src: "/songs/snoopdog.mp3",
-    },
-  ])
+  //const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     if (isPlaying) {
       audioElement.current.play()
@@ -54,16 +20,24 @@ function App() {
   })
 
   const playMusic = () => {
-    setIsPlaying(true)
+    if (isPlaying) {
+      audioElement.current.pause()
+      setIsPlaying(false)
+    } else {
+      audioElement.current.play()
+      setIsPlaying(true)
+    }
+    //console.log(audioElement.current.buffered.end(0))
   }
 
-  const pauseMusic = () => {
-    setIsPlaying(false)
-  }
-
-  const stopMusic = () => {
-    setIsPlaying(false)
+  const restartMusic = () => {
     audioElement.current.currentTime = 0
+  }
+
+  const randomMusic = () => {
+    const song = Math.floor(Math.random() * songs.length)
+    setIndex(song)
+    audioElement.current.play()
   }
 
   const forwardMusic = () => {
@@ -87,28 +61,16 @@ function App() {
       <div className={classes.screen}>
         <audio src={songs[index].src} ref={audioElement}></audio>
         <Screen songs={songs[index]} />
+        <Effect music={isPlaying} />
       </div>
-      <div className={classes.buttons}>
-        <button onClick={backwardMusic}>
-          {" "}
-          <IoPlaySkipBack />{" "}
-        </button>
-        <button onClick={pauseMusic}>
-          {" "}
-          <IoPause />{" "}
-        </button>
-        <button onClick={playMusic}>
-          {" "}
-          <FaPlay />{" "}
-        </button>
-        <button onClick={stopMusic}>
-          {" "}
-          <IoStop />{" "}
-        </button>
-        <button onClick={forwardMusic}>
-          <IoPlaySkipForward />
-        </button>
-      </div>
+      <Buttons
+        playMusic={playMusic}
+        forwardMusic={forwardMusic}
+        backwardMusic={backwardMusic}
+        randomMusic={randomMusic}
+        restartMusic={restartMusic}
+        music={isPlaying}
+      />
     </div>
   )
 }

@@ -1,0 +1,49 @@
+.buttons {
+  display: flex;
+  margin: 80px auto;
+  width: 350px;
+  height: 150px;
+}
+
+.buttons button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -2px 4px 0 rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  transform: scale(1);
+}
+
+.buttons button:nth-child(3) {
+  width: 80px;
+  height: 80px;
+  font-size: 1.5rem;
+}
+
+.buttons button:nth-child(1) {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 165, 0, 0);
+}
+
+.buttons button:nth-child(5) {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 165, 0, 0);
+}
+
+.buttons button:hover {
+  background-color: #3f3f3f;
+}
+
+.buttons button:active {
+  transform: scale(0.9);
+}
